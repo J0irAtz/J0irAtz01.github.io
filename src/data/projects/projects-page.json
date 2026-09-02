@@ -1,22 +1,18 @@
 {
-  "pageTitle": "Portfolio — Apex Capital Group",
-  "pageDescription": "Apex Capital Group portfolio companies across manufacturing, services, consumer, industrial, healthcare, and distribution sectors.",
-  "featuredEyebrow": "Portfolio Highlights",
-  "featuredHeading": "Featured",
-  "featuredAccent": "Holdings",
-  "allEyebrow": "Full Portfolio",
-  "allHeading": "Portfolio",
-  "allAccent": "Companies",
-  "viewAllLabel": "View full portfolio",
-  "viewAllUnit": "companies",
-  "featuredPortfolioLabel": "Portfolio Highlights",
+  "pageTitle": "Portfolio - Jair Alfaro",
+  "pageDescription": "Proyectos destacados en Análisis de Datos, Machine Learning e Ingeniería Mecatrónica.",
+  "featuredHeading": "Destacados",
+  "featuredEyebrow": "Proyectos Principales",
+  "allEyebrow": "Portafolio Completo",
+  "allHeading": "Mis",
+  "allAccent": "Proyectos",
+  "viewAllLabel": "Ver todo el portafolio",
+  "viewAllUnit": "proyectos",
+  "featuredPortfolioLabel": "Proyectos Destacados",
   "filters": [
-    { "label": "All",           "value": "all" },
-    { "label": "Manufacturing", "value": "manufacturing" },
-    { "label": "Services",      "value": "services" },
-    { "label": "Consumer",      "value": "consumer" },
-    { "label": "Industrial",    "value": "industrial" },
-    { "label": "Healthcare",    "value": "healthcare" },
-    { "label": "Distribution",  "value": "distribution" }
+    { "label": "Todos", "value": "all" },
+    { "label": "Machine Learning", "value": "Machine Learning" },
+    { "label": "Business Analytics", "value": "Business Analytics" },
+    { "label": "Data Engineering", "value": "Data Engineering" }
   ]
 }

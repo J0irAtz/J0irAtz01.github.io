@@ -1,86 +1,86 @@
 {
-  "pageTitle": "About Apex Capital Group",
-  "pageDescription": "Apex Capital Group is a private holding company that acquires, operates, and strategically exits businesses across multiple sectors. We deploy capital with discipline and manage operations with intention.",
+  "pageTitle": "Sobre Mí - Jair Alfaro",
+  "pageDescription": "Ingeniero Mecatrónico y Analista de Datos especializado en el ciclo de vida completo del dato y resolución de problemas.",
 
   "contactBar": {
     "items": [
-      { "label": "IR Email",    "value": "ir@apexcap.example",   "href": "mailto:ir@apexcap.example" },
-      { "label": "Phone",       "value": "(000) 000-0000",         "href": "tel:+10000000000" },
-      { "label": "Location",    "value": "New York, New York",     "href": null }
+      { "label": "Email",     "value": "jr.hew0520@gmail.com",   "href": "mailto:jr.hew0520@gmail.com" },
+      { "label": "GitHub",    "value": "github.com/J0irAtz",     "href": "https://github.com/J0irAtz" },
+      { "label": "Ubicación", "value": "Toluca, México",         "href": null }
     ]
   },
 
   "paragraphs": [
-    "Apex Capital Group was formed to do one thing well: identify businesses with strong fundamentals and underutilized potential, acquire them, and make them perform. We are not a turnaround shop. We are not a strip-and-flip operation. We are operators who happen to own companies.",
-    "Our portfolio spans manufacturing, services, technology, media, and real estate. What these companies have in common is not their sector — it is the situation we found them in: ready for the next chapter, waiting for the right partner to write it.",
-    "We take board seats, we hire and replace leadership when necessary, we optimize costs without destroying culture, and we plan for exits from the day we close. This is not complicated. It is simply disciplined capital allocation paired with operational seriousness. Most people find that combination more rare than it should be."
+    "Soy un profesional bilingüe especializado en el ciclo de vida completo del dato. Mi objetivo es aportar soluciones analíticas avanzadas y modelos predictivos que automaticen procesos, reduzcan costos operacionales y maximicen la toma de decisiones estratégicas de la organización.",
+    "Actualmente me desempeño en LeadVenture ejecutando procesos ETL y Data Wrangling. Previamente, como Asistente de Operaciones en Televisión Mexiquense, supervisé el rendimiento de equipos y resolví problemas técnicos críticos, garantizando la continuidad operativa.",
+    "Mi formación incluye una Ingeniería Mecatrónica en la Universidad Tecmilenio y una certificación como Data Analyst por TripleTen. Esta combinación me permite entender tanto la infraestructura física como la lógica de negocio detrás de los datos."
   ],
 
-  "pillarsHeading": "What Apex Capital Does",
+  "pillarsHeading": "Áreas de Especialidad",
   "pillars": [
     {
-      "title": "Acquisition & Intake",
-      "desc": "Sourcing, diligence, deal structuring, and portfolio integration across sectors and transaction sizes.",
+      "title": "Data Analysis & ETL",
+      "desc": "Limpieza, transformación y estructuración de bases de datos complejas utilizando Python (Pandas, NumPy) y consultas en SQL.",
       "icon": "building-office"
     },
     {
-      "title": "Operational Efficiency",
-      "desc": "Post-close operational assessment, cost structure optimization, and KPI-driven performance management.",
+      "title": "Machine Learning",
+      "desc": "Desarrollo de modelos predictivos, clasificación y clustering utilizando Scikit-learn para optimizar estrategias.",
       "icon": "chart-bar-square"
     },
     {
-      "title": "Portfolio Disposition",
-      "desc": "Exit strategy development, M&A advisory, buyer identification, and transaction management.",
+      "title": "Business Intelligence",
+      "desc": "Creación de dashboards interactivos y análisis de métricas clave (LTV, CAC) utilizando Tableau y Power BI.",
       "icon": "arrow-trending-up"
     },
     {
-      "title": "Leadership Transition",
-      "desc": "Executive assessment, onboarding, board governance, and stakeholder communication management.",
+      "title": "Ingeniería Mecatrónica",
+      "desc": "Mantenimiento, automatización y comprensión profunda de procesos industriales y de hardware.",
       "icon": "user-plus"
     }
   ],
 
   "stats": [
-    { "value": "20+", "label": "Years Experience" },
-    { "value": "12+", "label": "Portfolio Companies" },
-    { "value": "5",   "label": "Active Sectors" },
-    { "value": "LLC", "label": "Apex Capital Group, LLC" }
+    { "value": "1+", "label": "Años de Experiencia" },
+    { "value": "3+", "label": "Proyectos Clave" },
+    { "value": "2",  "label": "Titulaciones" },
+    { "value": "SQL", "label": "Python & BI" }
   ],
 
   "clientTypes": {
-    "eyebrow": "Who We Work With",
-    "heading": "Built for businesses at an inflection point.",
-    "body": "Our portfolio companies come to us through various paths — founder succession, corporate divestitures, distressed situations, and competitive acquisitions. What they share is a need for the right owner at the right time.",
+    "eyebrow": "Enfoque de Trabajo",
+    "heading": "Construido para escalar y optimizar.",
+    "body": "Aporto valor en diferentes etapas del ciclo de vida del dato, desde la extracción y limpieza hasta el modelado predictivo y la visualización de resultados clave.",
     "items": [
-      { "label": "Family-Owned Businesses" },
-      { "label": "Corporate Divestitures" },
-      { "label": "Management Buyouts" },
-      { "label": "Distressed & Turnaround" },
-      { "label": "Founder Succession" },
-      { "label": "Secondary Buyouts" }
+      { "label": "Análisis Exploratorio (EDA)" },
+      { "label": "Data Wrangling & ETL" },
+      { "label": "Machine Learning (Clustering/Clasificación)" },
+      { "label": "Automatización de Procesos" },
+      { "label": "Dashboards en Tableau/Power BI" },
+      { "label": "Web Scraping" }
     ]
   },
 
   "capabilitiesShowcase": {
-    "eyebrow": "Full Capabilities",
-    "heading": "What We Do.",
-    "subheading": "A cross-section of the disciplines we apply across every company in our portfolio. Click any card to read more."
+    "eyebrow": "Habilidades Completas",
+    "heading": "Lo Que Hago.",
+    "subheading": "Un resumen de las disciplinas que aplico en cada proyecto. Haz clic en cualquier tarjeta para leer más."
   },
 
-  "techStackHeading": "Sectors we know well",
+  "techStackHeading": "Stack Tecnológico",
   "techStackGroups": [
-    { "cat": "Manufacturing",   "items": ["Industrial Supply", "Food Processing", "Contract Manufacturing", "Light Assembly", "Co-Manufacturing", "Specialty Chemicals", "Metal Fabrication", "Plastics & Composites"] },
-    { "cat": "Services",        "items": ["Healthcare Staffing", "IT Services", "Field Services", "Business Process Outsourcing", "Environmental Services", "Facilities Management", "Professional Services"] },
-    { "cat": "Technology",      "items": ["SaaS", "Managed Services", "Enterprise Software", "IoT & Connected Devices", "Data & Analytics", "Digital Transformation", "Platform Businesses"] },
-    { "cat": "Distribution",    "items": ["Industrial Distribution", "Food & Beverage", "Last-Mile Logistics", "Third-Party Logistics", "Cold Chain", "E-commerce Fulfillment"] },
-    { "cat": "Real Estate",     "items": ["Light Industrial", "Flex Commercial", "Net Lease", "Sale-Leaseback", "Owner-User", "Development Land"] },
-    { "cat": "Media",           "items": ["Regional Publishing", "Digital Media", "Events & Conferences", "Trade Publications", "Newsletters", "Broadcast"] }
+    { "cat": "Python", "items": ["Pandas", "NumPy", "Scikit-learn", "BeautifulSoup", "Seaborn"] },
+    { "cat": "Bases de Datos", "items": ["SQL", "PostgreSQL", "Data Extraction", "Data Cleaning"] },
+    { "cat": "BI & Análisis", "items": ["Tableau", "Power BI", "Excel", "Google Sheets"] },
+    { "cat": "Herramientas IA", "items": ["ChatGPT Plus", "Google AI Pro", "Akool", "Opusclip Pro"] },
+    { "cat": "Ingeniería", "items": ["Mantenimiento de PC", "Automatización", "Hardware Analytics"] },
+    { "cat": "Control de Versiones", "items": ["Git", "GitHub", "Repositorios Locales"] }
   ],
 
   "cta": {
-    "heading": "Ready to discuss your company or investment thesis?",
-    "body": "We review all serious inquiries and respond to those that fit our mandate. If it fits, we move quickly.",
-    "label": "Contact Investor Relations →",
+    "heading": "¿Listo para potenciar tus datos?",
+    "body": "Siempre estoy abierto a discutir nuevas oportunidades, proyectos desafiantes y colaboraciones.",
+    "label": "Contactar ahora →",
     "href": "/contact"
   }
 }
