@@ -19,7 +19,7 @@ function isActive(href: string) {
 }
 
 const socialLinks = personalData.linkedin
-  ? [{ label: "LinkedIn", href: `https://linkedin.com/company/${personalData.linkedin}`, iconKey: 'linkedin' }]
+  ? [{ label: "LinkedIn", href: personalData.linkedin, iconKey: 'linkedin' }]
   : [];
 
 const otherSites = navigationData.otherSites ?? [];
