@@ -15,16 +15,6 @@
       ]
     },
     { "label": "About", "href": "/about", "iconKey": "user" },
-    {
-      "label": "Blog",
-      "href": "/blog",
-      "iconKey": "book",
-      "children": [
-        { "label": "Posts", "href": "/blog", "iconKey": "book" },
-        { "label": "Categories", "href": "/blog/categories", "iconKey": "grid" },
-        { "label": "Timeline", "href": "/blog/timeline", "iconKey": "clock" }
-      ]
-    },
     { "label": "Portfolio", "href": "/projects", "iconKey": "monitor" },
     { "label": "Contact", "href": "/contact", "iconKey": "mail" }
   ],
@@ -39,7 +29,6 @@
     "Company": [
       { "label": "About Us", "href": "/about" },
       { "label": "Portfolio", "href": "/projects" },
-      { "label": "Blog", "href": "/blog" },
       { "label": "Contact", "href": "/contact" }
     ],
     "Legal": [
