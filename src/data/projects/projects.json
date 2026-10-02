@@ -6,6 +6,7 @@
     "tags": ["Scikit-learn", "Python", "K-Means"],
     "description": "Desarrollo de modelos de clasificación y clustering para predecir la probabilidad de abandono de usuarios en Model Fitness, segmentando perfiles de riesgo.",
     "github": "https://bit.ly/3ZF6xV5",
+    "url": "https://github.com/J0irAtz/Portfolio-Data-Analysis/blob/main/An%C3%A1lisis%20de%20Retenci%C3%B3n%20y%20Predicci%C3%B3n%20de%20Churn.ipynb",
     "image": {
       "src": "https://raw.githubusercontent.com/J0irAtz/proyecto_machine_learning/main/grafico_ejemplo.png",
       "alt": "Dashboard de predicción de Churn"
@@ -18,6 +19,7 @@
     "tags": ["Python", "Pandas", "LTV", "CAC"],
     "description": "Evaluación de eficiencia de canales publicitarios mediante el análisis de métricas clave (ROMI) para generar recomendaciones de redistribución de presupuesto en Afisha.",
     "github": "https://bit.ly/4rP50rv",
+    "url": "https://github.com/J0irAtz/Portfolio-Data-Analysis/blob/main/Optimizaci%C3%B3n%20de%20Gastos%20de%20Marketing.ipynb",
     "image": {
       "src": "https://raw.githubusercontent.com/J0irAtz/proyecto_marketing/main/grafico_ejemplo.png",
       "alt": "Análisis de métricas LTV y CAC"
@@ -30,6 +32,7 @@
     "tags": ["SQL", "PostgreSQL", "Seaborn"],
     "description": "Procesamiento de bases de datos masivas mediante SQL Joins y web scraping en Python para validar el impacto del clima en la demanda operativa de viajes en Chicago.",
     "github": "https://bit.ly/3OiOUbd",
+    "url": "https://github.com/J0irAtz/Portfolio-Data-Analysis/blob/main/An%C3%A1lisis%20de%20Competencia%20y%20Clima.ipynb",
     "image": {
       "src": "https://raw.githubusercontent.com/J0irAtz/proyecto_sql_clima/main/grafico_ejemplo.png",
       "alt": "Gráfico de análisis climático en Seaborn"
