@@ -20,7 +20,8 @@ const filters = pageData.filters;
 
 const projectsForScript = projectsData.map((p) => ({
   ...p,
-  featuredImage:   p.featuredImage   ? withBase(p.featuredImage)   : p.featuredImage,
+  link: projectsRaw.find(raw => raw.slug === p.slug)?.link,
+  featuredImage: p.featuredImage ? withBase(p.featuredImage) : p.featuredImage,
   backgroundImage: p.backgroundImage ? withBase(p.backgroundImage) : p.backgroundImage,
   colorIcon:       p.colorIcon       ? withBase(p.colorIcon)       : p.colorIcon,
 }));
