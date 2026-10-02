@@ -272,18 +272,22 @@ const projectsForScript = projectsData.map((p) => ({
       const modalLinkTx = document.getElementById('project-modal-link-text') as HTMLElement;
       const modalNoLink = document.getElementById('project-modal-no-link') as HTMLElement;
 
-      if (p.link) {
-        modalLink.href = p.link;
-        if (p.link.includes('github.com'))  modalLinkTx.textContent = 'View on GitHub';
-        else if (p.link.includes('gitlab')) modalLinkTx.textContent = 'View on GitLab';
-        else if (p.link.includes('blog'))   modalLinkTx.textContent = 'Read the Post';
-        else                                modalLinkTx.textContent = 'View Project';
-        modalLink.classList.remove('hidden');
-        modalNoLink.classList.add('hidden');
-      } else {
-        modalLink.classList.add('hidden');
-        modalNoLink.classList.remove('hidden');
-      }
+      const misLinks = {
+            "Predicción de Churn y Retención": "https://github.com/J0irAtz/Portfolio-Data-Analysis/blob/main/An%C3%A1lisis%20de%20Retenci%C3%B3n%20y%20Predicci%C3%B3n%20de%20Churn.ipynb",
+            "Optimización de Gastos de Marketing": "https://github.com/J0irAtz/Portfolio-Data-Analysis/blob/main/Optimizaci%C3%B3n%20de%20Gastos%20de%20Marketing.ipynb",
+            "Análisis Climático y Logística": "https://github.com/J0irAtz/Portfolio-Data-Analysis/blob/main/An%C3%A1lisis%20de%20Competencia%20y%20Clima.ipynb"
+        };
+        const linkSeguro = p.link || misLinks[p.title];
+
+        if (linkSeguro) {
+            modalLink.href = linkSeguro;
+            modalLinkTx.textContent = 'View on GitHub';
+            modalLink.style.display = 'flex';
+            modalNoLink.style.display = 'none';
+        } else {
+            modalLink.style.display = 'none';
+            modalNoLink.style.display = 'block';
+        }
 
       modal.removeAttribute('hidden');
       document.body.style.overflow = 'hidden';
