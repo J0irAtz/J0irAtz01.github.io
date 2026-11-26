@@ -10,7 +10,8 @@
       "Tableau"
     ],
     "description": "Extracción y consolidación de resultados de Fórmula 1 con Python. El corte documentado reúne 132 registros de seis Grandes Premios y permite comparar posiciones y puntos por carrera.",
-    "link": "https://github.com/J0irAtz/Portfolio-Data-Analysis/tree/main/f1-antonelli"
+    "link": "https://github.com/J0irAtz/Portfolio-Data-Analysis/tree/main/f1-antonelli",
+    "dashboard": "https://public.tableau.com/app/profile/jair.eduardo.alfaro.ahuatzin/viz/Dashboard_F1_Antonelli/Dashboard1"
   },
   {
     "title": "Predicción de Churn y Retención",
