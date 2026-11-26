@@ -21,6 +21,7 @@ const filters = pageData.filters;
 const projectsForScript = projectsData.map((p) => ({
   ...p,
   link: projectsRaw.find(raw => raw.slug === p.slug)?.link,
+  dashboard: projectsRaw.find(raw => raw.slug === p.slug)?.dashboard,
   featuredImage: p.featuredImage ? withBase(p.featuredImage) : p.featuredImage,
   backgroundImage: p.backgroundImage ? withBase(p.backgroundImage) : p.backgroundImage,
   colorIcon:       p.colorIcon       ? withBase(p.colorIcon)       : p.colorIcon,
@@ -156,6 +157,10 @@ const projectsForScript = projectsData.map((p) => ({
     <span id="project-modal-link-text" class="font-display uppercase tracking-[2px] font-semibold">View Project</span>
     <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" set:html={icons['external-link']} />
   </a>
+  <a id="project-modal-dashboard" target="_blank" rel="noopener noreferrer" class="modal-cta" style="display: none;">
+    <span class="font-display uppercase tracking-[2px] font-semibold">Ver en Tableau Public</span>
+    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" set:html={icons['external-link']} />
+  </a>
   <p id="project-modal-no-link" class="modal-no-link hidden font-mono">Private / No public link available.</p>
 </Modal>
 
@@ -171,7 +176,7 @@ const projectsForScript = projectsData.map((p) => ({
     const el = document.getElementById('projects-data') as HTMLElement | null;
     const projects: {
       title: string; company: string; category: string; description: string;
-      tags: string[]; link: string; icon: string;
+      tags: string[]; link: string; dashboard?: string; icon: string;
       featuredImage?: string; backgroundImage?: string; colorIcon?: string;
     }[] = el ? JSON.parse(el.textContent ?? '[]') : [];
 
@@ -278,6 +283,14 @@ const projectsForScript = projectsData.map((p) => ({
             "Análisis Climático y Logística": "https://github.com/J0irAtz/Portfolio-Data-Analysis/blob/main/An%C3%A1lisis%20de%20Competencia%20y%20Clima.ipynb"
         };
         const linkSeguro = p.link || misLinks[p.title];
+        const dashboardLink = document.getElementById('project-modal-dashboard') as HTMLAnchorElement;
+        if (p.dashboard) {
+          dashboardLink.href = p.dashboard;
+          dashboardLink.style.display = 'flex';
+        } else {
+          dashboardLink.removeAttribute('href');
+          dashboardLink.style.display = 'none';
+        }
 
         if (linkSeguro) {
             modalLink.href = linkSeguro;
