@@ -2,21 +2,21 @@
 import Layout from "@/layouts/Layout.astro";
 import Projects from "@/components/Projects.astro";
 import Footer from "@/components/Footer.astro";
-import { withBase } from "@/lib/assetPath";
-import projectsPageData from "@/data/projects/projects-page.json";
+import { portfolioLocale } from "@/lib/portfolioLocale";
+const { local, t } = portfolioLocale(Astro.url.pathname);
 ---
 
 <Layout
-  title={projectsPageData.pageTitle}
-  description={projectsPageData.pageDescription}
+  title={t("Proyectos", "Projects")}
+  description={t("Proyectos de análisis e ingeniería de datos de Jair Alfaro.", "Data analytics and engineering projects by Jair Alfaro.")}
 >
   <div class="px-0">
     <div class="px-6 lg:px-12 pt-16 pb-4 max-w-7xl mx-auto">
-      <nav aria-label="Breadcrumb" class="mb-6">
+      <nav aria-label={t("Ruta de navegación", "Breadcrumb")} class="mb-6">
         <ol class="flex items-center gap-2 text-sm text-site-muted font-mono">
-          <li><a href={withBase('/')} data-astro-reload class="hover:text-white transition-colors">Home</a></li>
+          <li><a href={local('/')} data-astro-reload class="hover:text-white transition-colors">{t("Inicio", "Home")}</a></li>
           <li class="text-site-border">/</li>
-          <li class="text-electric-cyan">Projects</li>
+          <li class="text-electric-cyan">{t("Proyectos", "Projects")}</li>
         </ol>
       </nav>
     </div>

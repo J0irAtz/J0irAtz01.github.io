@@ -1,4 +1,6 @@
 ---
+import { portfolioLocale } from '@/lib/portfolioLocale';
+const { t } = portfolioLocale(Astro.url.pathname);
 import { icons } from '@/lib/icons';
 
 interface Props {
@@ -17,7 +19,7 @@ const { id } = Astro.props;
 >
   <div class="modal-box" id={`${id}-box`}>
 
-    <button class="modal-close" id={`${id}-close`} aria-label="Close">
+    <button class="modal-close" id={`${id}-close`} aria-label={t("Cerrar", "Close")}>
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-4 h-4" stroke-width="2" set:html={icons['x-mark']} />
     </button>
 

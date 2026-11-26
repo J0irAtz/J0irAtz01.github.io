@@ -1,0 +1,16 @@
+---
+import Home from '../index.astro';
+import Projects from '../projects.astro';
+import PortfolioSection from '@/components/PortfolioSection.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { path: undefined }, props: { section: 'home' } },
+    { params: { path: 'projects' }, props: { section: 'projects' } },
+    ...['about', 'contact', 'privacy', 'terms', '404', 'services'].map(section => ({ params: { path: section }, props: { section } })),
+    ...['data-analysis-etl', 'machine-learning', 'business-intelligence', 'ingenieria-mecatronica'].map(section => ({ params: { path: 'services/' + section }, props: { section } })),
+  ];
+}
+const { section } = Astro.props;
+---
+{section === 'home' ? <Home /> : section === 'projects' ? <Projects /> : <PortfolioSection {section} />}

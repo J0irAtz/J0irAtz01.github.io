@@ -1,4 +1,5 @@
 ---
+import { portfolioLocale } from "@/lib/portfolioLocale";
 import Sidebar from "@/components/Sidebar.astro";
 import { ClientRouter } from "astro:transitions";
 import { Font } from "astro:assets";
@@ -20,6 +21,7 @@ const {
   schema,
 } = Astro.props;
 
+const { t, lang, local, page } = portfolioLocale(Astro.url.pathname);
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? siteData.url);
 // If SITE_URL is misconfigured as http://, upgrade to https:// to prevent
 // mixed content errors when the page is served over TLS.
@@ -40,7 +42,6 @@ const defaultSchema = {
       legalName: siteData.legalName,
       description: description,
       url: siteData.url,
-      telephone: siteData.phone,
       email: siteData.email,
       address: {
         "@type": "PostalAddress",
@@ -90,7 +91,7 @@ function safeJsonLd(obj: Record<string, unknown>): string {
   We are a real and real serious financial firm. :-D
 
 -->
-<html lang="en" class="scroll-smooth">
+<html lang={lang} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -104,6 +105,8 @@ function safeJsonLd(obj: Record<string, unknown>): string {
     <meta name="geo.placename" content={`${siteData.addressLocality}, ${siteData.addressRegion}`} />
     <meta name="contact" content={siteData.email} />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" hreflang="es" href={new URL(local(page, false), canonicalURL)} />
+    <link rel="alternate" hreflang="en" href={new URL(local(page, true), canonicalURL)} />
     <!-- Astro Fonts API: self-hosted Inter + Oswald, downloaded at build time.
          No explicit preload — <ClientRouter /> re-emits preload tags on every
          client-side page swap; fonts are already cached by then, so the browser
@@ -122,7 +125,7 @@ function safeJsonLd(obj: Record<string, unknown>): string {
     <meta property="og:image:height" content="512" />
     <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:site_name" content={siteData.name} />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={t("es_MX", "en_US")} />
 
     <!-- Twitter / X Card -->
     <meta name="twitter:card" content="summary" />
@@ -199,11 +202,11 @@ function safeJsonLd(obj: Record<string, unknown>): string {
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
       style="background: var(--color-primary);"
-    >Skip to main content</a>
+    >{t("Ir al contenido principal", "Skip to main content")}</a>
 
     <!-- Layout: Sidebar + Main -->
     <div class="flex min-h-screen">
-      <Sidebar transition:persist />
+      <Sidebar />
 
       <!-- Main content area - offset by sidebar width -->
       <main
@@ -279,14 +282,14 @@ function safeJsonLd(obj: Record<string, unknown>): string {
           document.getElementById("sidebar-overlay")?.classList.remove("hidden");
           document.body.classList.add("overflow-hidden");
           const toggle = document.getElementById("sidebar-toggle");
-          if (toggle) { toggle.setAttribute("aria-expanded", "true"); toggle.setAttribute("aria-label", "Close navigation"); }
+          if (toggle) { toggle.setAttribute("aria-expanded", "true"); toggle.setAttribute("aria-label", (document.documentElement.lang === "en" ? "Close navigation" : "Cerrar navegación")); }
         }
         function closeSidebar() {
           document.getElementById("sidebar")?.classList.add("-translate-x-full");
           document.getElementById("sidebar-overlay")?.classList.add("hidden");
           document.body.classList.remove("overflow-hidden");
           const toggle = document.getElementById("sidebar-toggle");
-          if (toggle) { toggle.setAttribute("aria-expanded", "false"); toggle.setAttribute("aria-label", "Open navigation"); }
+          if (toggle) { toggle.setAttribute("aria-expanded", "false"); toggle.setAttribute("aria-label", (document.documentElement.lang === "en" ? "Open navigation" : "Abrir navegación")); }
         }
 
         document.addEventListener("astro:before-preparation", () => {
@@ -298,7 +301,7 @@ function safeJsonLd(obj: Record<string, unknown>): string {
           html.classList.toggle("sidebar-collapsed", collapsed);
           localStorage.setItem("sidebar-collapsed", collapsed ? "1" : "0");
           const collapseBtn = document.getElementById("sidebar-collapse-btn");
-          if (collapseBtn) collapseBtn.setAttribute("aria-label", collapsed ? "Expand sidebar" : "Collapse sidebar");
+          if (collapseBtn) collapseBtn.setAttribute("aria-label", collapsed ? (document.documentElement.lang === "en" ? "Expand sidebar" : "Expandir menú lateral") : (document.documentElement.lang === "en" ? "Collapse sidebar" : "Contraer menú lateral"));
           if (collapsed) {
             document.querySelectorAll("#sidebar details[data-nav-parent]").forEach((d) => {
               (d as HTMLDetailsElement).open = false;
@@ -342,7 +345,7 @@ function safeJsonLd(obj: Record<string, unknown>): string {
             localStorage.setItem("site-theme", isLight ? "dark" : "light");
             setTimeout(() => html.classList.remove("theme-transitioning"), 300);
             const themeBtn = document.getElementById("theme-toggle");
-            if (themeBtn) themeBtn.setAttribute("aria-label", isLight ? "Switch to dark mode" : "Switch to light mode");
+            if (themeBtn) themeBtn.setAttribute("aria-label", isLight ? (document.documentElement.lang === "en" ? "Switch to dark mode" : "Cambiar a modo oscuro") : (document.documentElement.lang === "en" ? "Switch to light mode" : "Cambiar a modo claro"));
             return;
           }
         });
@@ -496,11 +499,11 @@ function safeJsonLd(obj: Record<string, unknown>): string {
         // Sync aria-labels to actual state on every navigation
         const isCollapsed = html.classList.contains("sidebar-collapsed");
         const collapseBtn = document.getElementById("sidebar-collapse-btn");
-        if (collapseBtn) collapseBtn.setAttribute("aria-label", isCollapsed ? "Expand sidebar" : "Collapse sidebar");
+        if (collapseBtn) collapseBtn.setAttribute("aria-label", isCollapsed ? (document.documentElement.lang === "en" ? "Expand sidebar" : "Expandir menú lateral") : (document.documentElement.lang === "en" ? "Collapse sidebar" : "Contraer menú lateral"));
 
         const isLight = html.classList.contains("light-mode");
         const themeBtn = document.getElementById("theme-toggle");
-        if (themeBtn) themeBtn.setAttribute("aria-label", isLight ? "Switch to dark mode" : "Switch to light mode");
+        if (themeBtn) themeBtn.setAttribute("aria-label", isLight ? (document.documentElement.lang === "en" ? "Switch to dark mode" : "Cambiar a modo oscuro") : (document.documentElement.lang === "en" ? "Switch to light mode" : "Cambiar a modo claro"));
       });
     </script>
   </body>

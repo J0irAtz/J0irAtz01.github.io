@@ -1,6 +1,7 @@
 ---
 import projectsRaw from '@/data/projects/projects.json';
 import pageData from '@/data/projects/projects-page.json';
+import { portfolioLocale } from '@/lib/portfolioLocale';
 import { augmentProjectsWithImages, type ProjectEntry } from '../lib/fetchGitHub';
 import { withBase } from '../lib/assetPath';
 import { icons } from '../lib/icons';
@@ -16,12 +17,32 @@ const projectsData = featuredOnly
   ? allProjectsData.filter(p => p.featuredImage)
   : allProjectsData;
 
-const filters = pageData.filters;
+const { t, local } = portfolioLocale(Astro.url.pathname);
+const copy: Record<string, [string, string]> = {
+  'f1-kimi-antonelli': ['Formula 1 · Tracking Kimi Antonelli', 'Python pipeline that consolidates 132 Formula 1 results across six Grands Prix and compares race positions and points.'],
+  'model-fitness-churn': ['Customer Churn Prediction and Retention', 'Classification and clustering models that identify Model Fitness customers at risk of leaving.'],
+  'afisha-marketing-roi': ['Marketing Spend Optimization', 'Evaluation of advertising channels using return on marketing investment to recommend budget changes for Afisha.'],
+  'chicago-ride-sharing': ['Weather and Ride-Sharing in Chicago', 'SQL and Python analysis of the relationship between weather and ride duration in Chicago.'],
+};
+const categories: Record<string, string> = {
+  'Machine Learning': 'Aprendizaje automático',
+  'Business Analytics': 'Análisis de negocios',
+  'Data Engineering': 'Ingeniería de datos',
+};
+const categoryLabel = (value: string) => t(categories[value] ?? value, value);
+const filters = pageData.filters.map(filter => ({
+  ...filter, label: filter.value === 'all' ? t('Todos', 'All') : categoryLabel(filter.value),
+}));
+const localizedProjects = projectsData.map(project => ({
+  ...project,
+  title: t(project.title, copy[project.slug]?.[0] ?? project.title),
+  description: t(project.description, copy[project.slug]?.[1] ?? project.description),
+  categoryLabel: categoryLabel(project.category),
+}));
 
-const projectsForScript = projectsData.map((p) => ({
+const projectsForScript = localizedProjects.map((p) => ({
   ...p,
-  link: projectsRaw.find(raw => raw.slug === p.slug)?.link,
-  dashboard: projectsRaw.find(raw => raw.slug === p.slug)?.dashboard,
+  link: projectsRaw.find(raw => raw.slug === p.slug)?.link ?? projectsRaw.find(raw => raw.slug === p.slug)?.Link,
   featuredImage: p.featuredImage ? withBase(p.featuredImage) : p.featuredImage,
   backgroundImage: p.backgroundImage ? withBase(p.backgroundImage) : p.backgroundImage,
   colorIcon:       p.colorIcon       ? withBase(p.colorIcon)       : p.colorIcon,
@@ -41,19 +62,19 @@ const projectsForScript = projectsData.map((p) => ({
     <div class="flex items-center gap-3 mb-3">
       <div class="h-px w-8" style="background: var(--color-primary);"></div>
       <span class="text-xs font-mono font-semibold tracking-[3px] uppercase" style="color: var(--color-primary);">
-        {featuredOnly ? pageData.featuredEyebrow : pageData.allEyebrow}
+        {featuredOnly ? t("Proyectos principales", "Selected projects") : t("Portafolio completo", "Full portfolio")}
       </span>
     </div>
     <h2 id="projects-heading" class="font-display font-bold text-3xl sm:text-4xl lg:text-5xl uppercase tracking-wide mb-10" style="color: var(--color-text);">
       {featuredOnly
         ? <>{pageData.featuredHeading} <span style="color: var(--color-primary);">{pageData.featuredAccent}</span></>
-        : <>{pageData.allHeading} <span style="color: var(--color-primary);">{pageData.allAccent}</span></>}
+        : <>{t(pageData.allHeading, "My")} <span style="color: var(--color-primary);">{t(pageData.allAccent, "Projects")}</span></>}
     </h2>
 
     {featuredOnly && (
       <div class="flex mb-8">
-        <a href={withBase('/projects')} class="portfolio-link inline-flex items-center gap-2 text-xs font-mono">
-          View full portfolio →
+        <a href={local('/projects')} class="portfolio-link inline-flex items-center gap-2 text-xs font-mono">
+          {t("Ver todo el portafolio →", "View full portfolio →")}
         </a>
       </div>
     )}
@@ -74,7 +95,7 @@ const projectsForScript = projectsData.map((p) => ({
 
     <!-- Grid -->
     <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {projectsData.map((project, i) => (
+      {localizedProjects.map((project, i) => (
         <div
           class={`project-card${project.backgroundImage ? ' has-bg' : ''}`}
           data-category={project.category}
@@ -82,7 +103,7 @@ const projectsForScript = projectsData.map((p) => ({
           style={`--enter-delay: ${(i % 3) * 0.06}s;`}
           role="button"
           tabindex="0"
-          aria-label={`Open details for ${project.title}`}
+          aria-label={`${t("Ver detalles de", "Open details for")} ${project.title}`}
         >
           <!-- Float icon -->
           {project.colorIcon && (
@@ -126,7 +147,7 @@ const projectsForScript = projectsData.map((p) => ({
 
             <!-- Footer -->
             <div class="project-footer relative z-10">
-              <span class="project-cat-badge font-mono">{project.category}</span>
+              <span class="project-cat-badge font-mono">{project.categoryLabel}</span>
               {project.icon && icons[project.icon] && (
                 <div class="project-heroicon shrink-0">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -135,7 +156,7 @@ const projectsForScript = projectsData.map((p) => ({
                 </div>
               )}
               <span class="project-open-hint ml-auto">
-                <span class="project-hint-text">open</span>
+                <span class="project-hint-text">{t("Abrir", "Open")}</span>
                 <svg class="project-hint-arrow w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" set:html={icons['external-link']} />
               </span>
             </div>
@@ -146,7 +167,7 @@ const projectsForScript = projectsData.map((p) => ({
     </div>
 
     <p id="projects-empty" class="hidden text-center text-sm mt-12 font-mono" style="color: var(--color-text-muted);">
-      No projects in this category yet.
+      {t("Todavía no hay proyectos en esta categoría.", "No projects in this category yet.")}
     </p>
 
   </div>
@@ -154,14 +175,10 @@ const projectsForScript = projectsData.map((p) => ({
 
 <Modal id="project-modal">
   <a id="project-modal-link" href="#" target="_blank" rel="noopener noreferrer" class="modal-cta">
-    <span id="project-modal-link-text" class="font-display uppercase tracking-[2px] font-semibold">View Project</span>
+    <span id="project-modal-link-text" class="font-display uppercase tracking-[2px] font-semibold">{t("Ver proyecto", "View project")}</span>
     <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" set:html={icons['external-link']} />
   </a>
-  <a id="project-modal-dashboard" target="_blank" rel="noopener noreferrer" class="modal-cta" style="display: none;">
-    <span class="font-display uppercase tracking-[2px] font-semibold">Ver en Tableau Public</span>
-    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" set:html={icons['external-link']} />
-  </a>
-  <p id="project-modal-no-link" class="modal-no-link hidden font-mono">Private / No public link available.</p>
+  <p id="project-modal-no-link" class="modal-no-link hidden font-mono">{t("Enlace público no disponible.", "Public link unavailable.")}</p>
 </Modal>
 
 <div class="site-band"></div>
@@ -175,8 +192,8 @@ const projectsForScript = projectsData.map((p) => ({
 
     const el = document.getElementById('projects-data') as HTMLElement | null;
     const projects: {
-      title: string; company: string; category: string; description: string;
-      tags: string[]; link: string; dashboard?: string; icon: string;
+      title: string; company: string; category: string; categoryLabel: string; description: string;
+      tags: string[]; link: string; icon: string;
       featuredImage?: string; backgroundImage?: string; colorIcon?: string;
     }[] = el ? JSON.parse(el.textContent ?? '[]') : [];
 
@@ -258,7 +275,7 @@ const projectsForScript = projectsData.map((p) => ({
         hero.style.display = 'none';
       }
 
-      (document.getElementById('project-modal-cat')    as HTMLElement).textContent = p.category;
+      (document.getElementById('project-modal-cat')    as HTMLElement).textContent = p.categoryLabel;
       (document.getElementById('project-modal-title')  as HTMLElement).textContent = p.title;
       (document.getElementById('project-modal-subtitle') as HTMLElement).textContent = p.company;
       (document.getElementById('project-modal-desc')   as HTMLElement).textContent = p.description;
@@ -277,24 +294,11 @@ const projectsForScript = projectsData.map((p) => ({
       const modalLinkTx = document.getElementById('project-modal-link-text') as HTMLElement;
       const modalNoLink = document.getElementById('project-modal-no-link') as HTMLElement;
 
-      const misLinks = {
-            "Predicción de Churn y Retención": "https://github.com/J0irAtz/Portfolio-Data-Analysis/blob/main/An%C3%A1lisis%20de%20Retenci%C3%B3n%20y%20Predicci%C3%B3n%20de%20Churn.ipynb",
-            "Optimización de Gastos de Marketing": "https://github.com/J0irAtz/Portfolio-Data-Analysis/blob/main/Optimizaci%C3%B3n%20de%20Gastos%20de%20Marketing.ipynb",
-            "Análisis Climático y Logística": "https://github.com/J0irAtz/Portfolio-Data-Analysis/blob/main/An%C3%A1lisis%20de%20Competencia%20y%20Clima.ipynb"
-        };
-        const linkSeguro = p.link || misLinks[p.title];
-        const dashboardLink = document.getElementById('project-modal-dashboard') as HTMLAnchorElement;
-        if (p.dashboard) {
-          dashboardLink.href = p.dashboard;
-          dashboardLink.style.display = 'flex';
-        } else {
-          dashboardLink.removeAttribute('href');
-          dashboardLink.style.display = 'none';
-        }
+        const linkSeguro = p.link;
 
         if (linkSeguro) {
             modalLink.href = linkSeguro;
-            modalLinkTx.textContent = 'View on GitHub';
+            modalLinkTx.textContent = document.documentElement.lang === 'en' ? 'View on GitHub' : 'Ver en GitHub';
             modalLink.style.display = 'flex';
             modalNoLink.style.display = 'none';
         } else {

@@ -2,16 +2,19 @@
 import siteData from '@/data/global/site.json';
 import personalData from '@/data/global/personal.json';
 import navigationData from '@/data/global/navigation.json';
-import { withBase } from '@/lib/assetPath';
+import { portfolioLocale, whatsappHref, whatsappNumber } from '@/lib/portfolioLocale';
+const { page, local, t, english } = portfolioLocale(Astro.url.pathname);
 import { navIcons, icons } from '@/lib/icons';
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const retroTvGlob = import.meta.glob('/public/images/retro-tv/*.gif', { eager: false });
 const gifCount = Object.keys(retroTvGlob).length;
 
+const spanishLabels: Record<string, string> = {"Home":"Inicio","Services":"Servicios","About":"Sobre mí","Portfolio":"Portafolio","Contact":"Contacto","Data Analysis":"Análisis de datos","Machine Learning":"Aprendizaje automático","Business Intelligence":"Inteligencia de negocios","Ingeniería Mecatrónica":"Ingeniería Mecatrónica"};
+const englishLabels: Record<string, string> = {"Ingeniería Mecatrónica":"Mechatronics Engineering"};
+const navLabel = (label: string) => (english ? englishLabels : spanishLabels)[label] ?? label;
 const navItems = navigationData.navItems;
 
-const basePrefix = base.endsWith('/') ? base.slice(0, -1) : base;
-const rawPath = Astro.url.pathname.slice(basePrefix.length) || '/';
+const rawPath = page;
 
 function isActive(href: string) {
   if (href === '/') return rawPath === '/';
@@ -29,7 +32,7 @@ const otherSites = navigationData.otherSites ?? [];
 <button
   id="sidebar-toggle"
   class="fixed top-4 left-4 z-50 lg:hidden flex items-center justify-center w-10 h-10 bg-navy-800 border border-site-border text-site-text hover:border-site-green/50 transition-colors"
-  aria-label="Open navigation"
+  aria-label={t("Abrir navegación", "Open navigation")}
   aria-expanded="false"
   aria-controls="sidebar"
 >
@@ -40,7 +43,7 @@ const otherSites = navigationData.otherSites ?? [];
 <aside
   id="sidebar"
   class="fixed top-0 left-0 z-40 h-screen w-60 xl:w-64 bg-sidebar-gradient shadow-sidebar flex flex-col -translate-x-full lg:translate-x-0 border-r border-site-border"
-  aria-label="Primary navigation"
+  aria-label={t("Navegación principal", "Primary navigation")}
 >
   <!-- Welcome bar -->
   <div id="sidebar-welcome" class="bg-navy-800 border-b border-black px-4 py-3 text-center">
@@ -55,14 +58,14 @@ const otherSites = navigationData.otherSites ?? [];
   <!-- Logo bar -->
   <div id="sidebar-logo-bar" class="bg-navy-800 flex items-center justify-center py-0 border-b border-black" style="height: 80px;">
     <!-- Expanded logo — flex keeps the existing show/hide CSS working; text is absolutely placed -->
-    <a href={withBase('/')} data-astro-reload aria-label="Apex Capital Group home" id="sidebar-logo-box" class="sidebar-logo-expanded site-logo-box flex items-center justify-center flex-shrink-0" style="width: 164px; height: 94px; margin-top: 0; margin-bottom: 0; position: relative; overflow: visible;">
+    <a href={local('/')} data-astro-reload aria-label={t("Inicio de Jair Alfaro", "Jair Alfaro home")} id="sidebar-logo-box" class="sidebar-logo-expanded site-logo-box flex items-center justify-center flex-shrink-0" style="width: 164px; height: 94px; margin-top: 0; margin-bottom: 0; position: relative; overflow: visible;">
       <div id="sidebar-logo-gif" data-base={base} data-gif-count={gifCount} style="position: absolute; inset: 0; opacity: 0; transition: opacity 1.5s ease; background-size: 107% auto; background-position: top left; overflow: hidden;"></div>
       <span id="logo-glitch-wrap" style="position: relative; z-index: 1; display: inline-block; line-height: 1;">
         <span style="font-family: var(--font-logo); font-weight: bold; font-size: 2.5rem; letter-spacing: 3px; text-transform: uppercase; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.6);">{siteData.logoText}</span>
       </span>
     </a>
     <!-- Collapsed logo — no inline display; global CSS handles show/hide via .sidebar-collapsed -->
-    <a href={withBase('/')} data-astro-reload aria-label="Apex Capital Group home" id="sidebar-logo-box-collapsed" class="sidebar-logo-collapsed site-logo-box flex items-center justify-center flex-shrink-0" style="width: 44px; height: 44px; border-width: 1px; position: relative; overflow: visible;">
+    <a href={local('/')} data-astro-reload aria-label={t("Inicio de Jair Alfaro", "Jair Alfaro home")} id="sidebar-logo-box-collapsed" class="sidebar-logo-collapsed site-logo-box flex items-center justify-center flex-shrink-0" style="width: 44px; height: 44px; border-width: 1px; position: relative; overflow: visible;">
       <span id="logo-glitch-wrap-collapsed" style="position: relative; z-index: 1; display: inline-block; line-height: 1;">
         <span class="font-display font-light text-white text-xl uppercase" style="text-shadow: 0 1px 3px rgba(0,0,0,0.6);">{siteData.logoShort}</span>
       </span>
@@ -73,13 +76,13 @@ const otherSites = navigationData.otherSites ?? [];
   <div class="site-band sidebar-band"></div>
 
   <!-- Navigation -->
-  <nav class="flex-1 overflow-y-auto py-4 px-2 space-y-0.5" aria-label="Main navigation">
+  <nav class="flex-1 overflow-y-auto py-4 px-2 space-y-0.5" aria-label={t("Menú principal", "Main navigation")}>
     {navItems.map((item) => (
       <div class="sidebar-nav-item">
         {item.children ? (
-          <details class="group" open={isActive(item.href)} data-nav-parent data-href={item.href}>
+          <details class="group" open={isActive(item.href)} data-nav-parent data-href={english ? `/en${item.href}` : item.href}>
             <summary
-              title={item.label}
+              title={navLabel(item.label)}
               class={`flex items-center gap-3 px-3 py-2.5 cursor-pointer select-none list-none transition-all duration-150 border-l-2 ${
                 isActive(item.href)
                   ? "border-site-green text-white bg-site-surface"
@@ -91,7 +94,7 @@ const otherSites = navigationData.otherSites ?? [];
                 style={isActive(item.href) ? "color: var(--color-primary);" : ""}
                 set:html={navIcons[item.iconKey]}
               />
-              <span class="font-display font-semibold text-sm tracking-[1.5px] uppercase flex-1 sidebar-label">{item.label}</span>
+              <span class="font-display font-semibold text-sm tracking-[1.5px] uppercase flex-1 sidebar-label">{navLabel(item.label)}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="w-4 h-4 text-site-muted transition-transform duration-200 group-open:rotate-180 sidebar-label"
@@ -103,7 +106,7 @@ const otherSites = navigationData.otherSites ?? [];
             <div class="mt-0.5 ml-5 pl-4 border-l border-site-border space-y-0">
               {item.children.map((child) => (
                 <a
-                  href={withBase(child.href)}
+                  href={local(child.href)}
                   data-nav-link
                   aria-current={isActive(child.href) ? "page" : undefined}
                   class={`flex items-center gap-2 px-2 py-2 text-xs font-mono transition-all duration-150 ${
@@ -114,17 +117,17 @@ const otherSites = navigationData.otherSites ?? [];
                   style={isActive(child.href) ? "color: var(--color-primary);" : ""}
                 >
                   <span class="flex-shrink-0" set:html={navIcons[child.iconKey]} />
-                  <span class="sidebar-label">{child.label}</span>
+                  <span class="sidebar-label">{navLabel(child.label)}</span>
                 </a>
               ))}
             </div>
           </details>
         ) : (
           <a
-            href={withBase(item.href)}
+            href={local(item.href)}
             data-nav-link
             data-astro-reload={item.href === '/' ? '' : undefined}
-            title={item.label}
+            title={navLabel(item.label)}
             aria-current={isActive(item.href) ? "page" : undefined}
             class={`flex items-center gap-3 px-3 py-2.5 transition-all duration-150 border-l-2 ${
               isActive(item.href)
@@ -137,27 +140,32 @@ const otherSites = navigationData.otherSites ?? [];
               style={isActive(item.href) ? "color: var(--color-primary);" : ""}
               set:html={navIcons[item.iconKey]}
             />
-            <span class="font-display font-semibold text-sm tracking-[1.5px] uppercase sidebar-label">{item.label}</span>
+            <span class="font-display font-semibold text-sm tracking-[1.5px] uppercase sidebar-label">{navLabel(item.label)}</span>
           </a>
         )}
       </div>
     ))}
 
     <!-- Quick Access -->
+    <div class="mx-3 mt-5 flex items-center gap-2 text-xs" role="group" aria-label={t('Idioma', 'Language')}>
+      {english ? <a href={local(page, false)} lang="es" hreflang="es" data-astro-reload>Español</a> : <span lang="es" aria-current="true" class="font-bold text-site-green">Español</span>}
+      <span aria-hidden="true">|</span>
+      {english ? <span lang="en" aria-current="true" class="font-bold text-site-green">English</span> : <a href={local(page, true)} lang="en" hreflang="en" data-astro-reload>English</a>}
+    </div>
     <div class="pt-6 sidebar-quick-access">
       <div class="site-band mb-3"></div>
-      <p class="px-3 pb-2 text-[9px] font-display font-semibold uppercase tracking-[3px] text-site-muted sidebar-label">Quick Access</p>
+      <p class="px-3 pb-2 text-[9px] font-display font-semibold uppercase tracking-[3px] text-site-muted sidebar-label">{t("Acceso rápido", "Quick Access")}</p>
       <a
-        href={`tel:${siteData.phone}`}
-        title={`Call ${siteData.name}`}
+        href={whatsappHref}
+        title="WhatsApp"
         class="flex items-center gap-3 px-3 py-2 text-site-muted hover:text-white hover:bg-site-surface transition-all duration-150"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" set:html={icons['phone']} />
-        <span class="text-xs font-mono sidebar-label">{siteData.phoneDisplay}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.45L4 20l1.05-3.9a8.5 8.5 0 1 1 15.45-4.6Z"/><path d="M9 10h6m-6 4h4"/></svg>
+        <span class="text-xs font-mono sidebar-label">WhatsApp · {whatsappNumber}</span>
       </a>
       <a
         href={`mailto:${siteData.email}`}
-        title={`Email ${siteData.name}`}
+        title={t("Enviar correo", "Send email")}
         class="flex items-center gap-3 px-3 py-2 text-site-muted hover:text-white hover:bg-site-surface transition-all duration-150"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" set:html={icons['envelope']} />
@@ -167,7 +175,7 @@ const otherSites = navigationData.otherSites ?? [];
       {socialLinks.length > 0 && (
         <>
           <div class="site-band mt-4 mb-3"></div>
-          <p class="px-3 pb-2 text-[9px] font-display font-semibold uppercase tracking-[3px] text-site-muted sidebar-label">{navigationData.sidebarSocialLabel}</p>
+          <p class="px-3 pb-2 text-[9px] font-display font-semibold uppercase tracking-[3px] text-site-muted sidebar-label">{t("Redes", "Social")}</p>
           {socialLinks.map(link => (
             <a
               href={link.href}
@@ -185,7 +193,7 @@ const otherSites = navigationData.otherSites ?? [];
 
       <!-- Other Sites -->
       <div class="site-band mt-4 mb-3"></div>
-      <p class="px-3 pb-2 text-[9px] font-display font-semibold uppercase tracking-[3px] text-site-muted sidebar-label">{navigationData.sidebarOtherSitesLabel}</p>
+      <p class="px-3 pb-2 text-[9px] font-display font-semibold uppercase tracking-[3px] text-site-muted sidebar-label">{t("Otros sitios", "Other sites")}</p>
       {otherSites.map(site => (
         <a
           href={site.href}
@@ -206,15 +214,15 @@ const otherSites = navigationData.otherSites ?? [];
     <button
       id="theme-toggle"
       class="sidebar-theme-btn w-full flex items-center gap-3 px-4 py-3 text-site-muted hover:text-site-green hover:bg-site-surface transition-all duration-150"
-      aria-label="Toggle light/dark mode"
+      aria-label={t("Cambiar modo de color", "Toggle light/dark mode")}
     >
       <!-- Sun icon — shown in dark mode (click to go light) -->
       <svg class="theme-icon-sun w-4 h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" set:html={icons['sun']} />
       <!-- Moon icon — shown in light mode (click to go dark) -->
       <svg class="theme-icon-moon w-4 h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" set:html={icons['moon']} />
       <span class="sidebar-label text-xs font-mono tracking-[2px] uppercase">
-        <span class="theme-icon-sun">Light Mode</span>
-        <span class="theme-icon-moon">Dark Mode</span>
+        <span class="theme-icon-sun">{t("Modo claro", "Light Mode")}</span>
+        <span class="theme-icon-moon">{t("Modo oscuro", "Dark Mode")}</span>
       </span>
     </button>
   </div>
@@ -224,25 +232,25 @@ const otherSites = navigationData.otherSites ?? [];
     <button
       id="sidebar-collapse-btn"
       class="sidebar-collapse-btn w-full flex items-center gap-3 px-4 py-3 text-site-muted hover:text-site-green hover:bg-site-surface transition-all duration-150"
-      aria-label="Toggle sidebar"
+      aria-label={t("Cambiar menú lateral", "Toggle sidebar")}
     >
       <svg class="sidebar-icon-collapse w-4 h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" set:html={icons['collapse-sidebar']} />
       <svg class="sidebar-icon-expand w-4 h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" set:html={icons['expand-sidebar']} />
-      <span class="sidebar-label text-xs font-mono tracking-[2px] uppercase">Collapse</span>
+      <span class="sidebar-label text-xs font-mono tracking-[2px] uppercase">{t("Contraer", "Collapse")}</span>
     </button>
   </div>
 
   <!-- Bottom CTA -->
   <div class="p-3 border-t border-site-border">
     <a
-      href={withBase('/contact')}
-      title={navigationData.ctaText}
+      href="https://www.linkedin.com/in/jair-eduardo-alfaro-ahuatzin-dataanalyst/"
+      title={t("Ver LinkedIn", "View LinkedIn")}
       class="flex items-center justify-center gap-2 w-full px-4 py-3 text-white font-display font-semibold text-sm tracking-[2px] uppercase shadow-glow-sm hover:shadow-glow-md transition-all duration-300 hover:brightness-110"
       style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);"
     >
       <!-- Help icon (always visible) -->
       <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" set:html={icons['help-circle']} />
-      <span class="sidebar-label">{navigationData.ctaText}</span>
+      <span class="sidebar-label">{t("Ver LinkedIn", "View LinkedIn")}</span>
     </a>
     <p class="text-center text-[9px] text-site-muted mt-3 font-mono tracking-wider sidebar-label">
       &copy; {new Date().getFullYear()} {siteData.legalName}
@@ -251,7 +259,7 @@ const otherSites = navigationData.otherSites ?? [];
 </aside>
 
 <!-- Flyout submenu for collapsed nav parents -->
-<div id="sidebar-flyout" role="navigation" aria-label="Submenu" aria-hidden="true">
+<div id="sidebar-flyout" role="navigation" aria-label={t("Submenú", "Submenu")} aria-hidden="true">
   <div id="sidebar-flyout-inner"></div>
 </div>
 

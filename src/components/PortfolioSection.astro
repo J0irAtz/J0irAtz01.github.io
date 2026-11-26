@@ -1,0 +1,53 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Footer from '@/components/Footer.astro';
+import siteData from '@/data/global/site.json';
+import { portfolioLocale, whatsappHref, whatsappNumber } from '@/lib/portfolioLocale';
+
+const { section } = Astro.props;
+const { local, t } = portfolioLocale(Astro.url.pathname);
+const services = [
+  { path: 'data-analysis-etl', title: t('Análisis de datos y ETL', 'Data analysis and ETL'), body: t('Extraigo, limpio y organizo datos con Python, pandas y SQL para que estén listos para analizarse.', 'I extract, clean, and structure data with Python, pandas, and SQL so it is ready for analysis.'), skills: t('Extracción web, validación de datos, consultas SQL y análisis exploratorio.', 'Web scraping, data validation, SQL queries, and exploratory analysis.') },
+  { path: 'machine-learning', title: t('Aprendizaje automático', 'Machine learning'), body: t('Desarrollo modelos de clasificación y segmentación con scikit-learn para analizar el abandono y el comportamiento de clientes.', 'I build classification and segmentation models with scikit-learn to analyze customer churn and behavior.'), skills: t('Regresión logística, bosques aleatorios y agrupamiento K-means.', 'Logistic regression, random forests, and K-means clustering.') },
+  { path: 'business-intelligence', title: t('Inteligencia de negocios', 'Business intelligence'), body: t('Defino indicadores y construyo tableros en Power BI y Tableau para comunicar resultados y apoyar decisiones operativas.', 'I define metrics and build Power BI and Tableau dashboards to communicate results and support operational decisions.'), skills: t('Indicadores de rendimiento, visualización y análisis de campañas.', 'Performance metrics, data visualization, and campaign analysis.') },
+  { path: 'ingenieria-mecatronica', title: t('Ingeniería mecatrónica', 'Mechatronics engineering'), body: t('Aplico mi formación en ingeniería a la automatización, el mantenimiento y la continuidad operativa.', 'I apply my engineering background to automation, maintenance, and operational continuity.'), skills: t('Diagnóstico de equipos, automatización y resolución de incidencias.', 'Equipment troubleshooting, automation, and incident resolution.') },
+];
+const service = services.find(item => item.path === section);
+const info: Record<string, [string, string]> = {
+  about: [t('Sobre mí', 'About me'), t('Soy ingeniero mecatrónico y analista de datos en Toluca, México. Trabajo con catálogos de autopartes y datos deportivos. Mi experiencia incluye validar registros, definir indicadores y crear tableros.', 'I am a mechatronics engineer and data analyst based in Toluca, Mexico. I work with automotive parts catalogs and sports data. My experience includes validating records, defining metrics, and building dashboards.')],
+  contact: [t('Contacto', 'Contact'), t('Escríbeme por WhatsApp o correo para hablar de proyectos y oportunidades profesionales.', 'Message me on WhatsApp or by email to discuss projects and career opportunities.')],
+  services: [t('Servicios', 'Services'), t('Áreas en las que aplico análisis de datos e ingeniería.', 'The areas where I apply data analysis and engineering.')],
+  privacy: [t('Política de privacidad', 'Privacy policy'), t('Este portafolio guarda tu preferencia de apariencia en tu navegador. Si decides escribir por correo o WhatsApp, usaré tu mensaje para responderte. Los sitios enlazados aplican sus propias políticas de privacidad.', 'This portfolio stores your appearance preference in your browser. If you contact me by email or WhatsApp, I use your message to respond. Linked sites apply their own privacy policies.')],
+  terms: [t('Términos de uso', 'Terms of use'), t('Este portafolio presenta proyectos personales, formativos y colaborativos. Los proyectos enlazados se rigen por las licencias indicadas en sus repositorios. El contenido se ofrece con fines informativos.', 'This portfolio showcases personal, educational, and collaborative projects. Linked projects are governed by the licenses listed in their repositories. The content is provided for informational purposes.')],
+  '404': [t('Página no encontrada', 'Page not found'), t('No encontramos esa página. Puedes volver al inicio o explorar los proyectos.', 'We could not find that page. You can return home or explore the projects.')],
+};
+const [title, description] = service ? [service.title, service.body] : info[section];
+---
+<Layout {title} {description}>
+  <section class="mx-auto max-w-5xl px-6 py-24 lg:px-12">
+    <h1 class="mb-6 font-display text-4xl font-bold text-site-text sm:text-5xl">{title}</h1>
+    <p class="mb-8 max-w-3xl text-xl leading-relaxed text-site-text-muted">{description}</p>
+    {section === 'about' && <p class="mb-8 max-w-3xl text-site-text-muted">{t('Estudié Ingeniería Mecatrónica en la Universidad Tecmilenio y Análisis de Datos en TripleTen.', 'I studied mechatronics engineering at Universidad Tecmilenio and data analytics at TripleTen.')}</p>}
+    {service && <p class="mb-8 text-site-text-muted">{service.skills}</p>}
+    {section === 'services' && (
+      <div class="grid gap-4 sm:grid-cols-2">
+        {services.map(item => (
+          <a class="rounded-lg border border-site-border bg-site-surface p-5 hover:border-site-green" href={local('/services/' + item.path)}>
+            <h2 class="mb-2 font-display text-xl text-site-text">{item.title}</h2>
+            <p class="text-site-text-muted">{item.body}</p>
+          </a>
+        ))}
+      </div>
+    )}
+    {section === 'contact' && (
+      <div class="flex flex-wrap gap-4">
+        <a class="rounded border border-site-border px-4 py-3 hover:border-site-green" href={whatsappHref}>WhatsApp · {whatsappNumber}</a>
+        <a class="rounded border border-site-border px-4 py-3 hover:border-site-green" href={`mailto:${siteData.email}`}>{siteData.email}</a>
+      </div>
+    )}
+    {(section === 'about' || section === '404' || service) && (
+      <a class="text-site-green underline" href={local('/projects')}>{t('Ver proyectos', 'View projects')} →</a>
+    )}
+  </section>
+  <Footer />
+</Layout>

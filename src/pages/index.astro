@@ -1,28 +1,13 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import siteData from "@/data/global/site.json";
-import Hero from "@/components/Hero.astro";
-import MarketChart from "@/components/MarketChart.astro";
-import FeaturedSlider from "@/components/FeaturedSlider.astro";
-import Portal from "@/components/Portal.astro";
-import Services from "@/components/Services.astro";
-import TransactionDesk from "@/components/TransactionDesk.astro";
-import Projects from "@/components/Projects.astro";
-import QuickHelpForm from "@/components/QuickHelpForm.astro";
-import Footer from "@/components/Footer.astro";
+import Layout from '@/layouts/Layout.astro';
+import Hero from '@/components/Hero.astro';
+import Projects from '@/components/Projects.astro';
+import Footer from '@/components/Footer.astro';
+import { portfolioLocale } from '@/lib/portfolioLocale';
+const { t } = portfolioLocale(Astro.url.pathname);
 ---
-
-<Layout
-  title={siteData.name}
-  description={siteData.description}
->
+<Layout title="Jair Alfaro" description={t('Portafolio de análisis de datos de Jair Alfaro.', 'Jair Alfaro’s data analytics portfolio.')}>
   <Hero />
-  <MarketChart />
-  <FeaturedSlider />
-  <Portal />
-  <Services />
- <!-- <TransactionDesk/> -->
-  <Projects featuredOnly />
-  <QuickHelpForm />
+  <Projects />
   <Footer />
 </Layout>

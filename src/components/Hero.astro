@@ -1,5 +1,6 @@
 ---
-import { withBase } from '@/lib/assetPath';
+import { portfolioLocale } from '@/lib/portfolioLocale';
+const { local, t } = portfolioLocale(Astro.url.pathname);
 import heroData from '@/data/home/hero.json';
 import { icons } from '@/lib/icons';
 ---
@@ -19,7 +20,7 @@ import { icons } from '@/lib/icons';
     <div class="flex items-center gap-3 mb-6 animate-fade-in">
       <div class="h-px w-8" style="background: var(--color-primary);"></div>
       <span class="text-xs font-mono font-semibold tracking-[3px] uppercase" style="color: var(--color-primary);">
-        {heroData.eyebrow}
+        {t("ANALISTA DE DATOS · INGENIERO MECATRÓNICO", "DATA ANALYST · MECHATRONICS ENGINEER")}
       </span>
     </div>
 
@@ -34,7 +35,7 @@ import { icons } from '@/lib/icons';
       class="font-display font-bold text-xl sm:text-2xl lg:text-3xl uppercase tracking-widest mb-8 animate-slide-up"
       style="color: var(--color-primary); animation-delay: 0.05s; opacity: 0; animation-fill-mode: forwards;"
     >
-      {heroData.subHeading}
+      {t(heroData.subHeading, "TURNING DATA INTO STRATEGY.")}
     </p>
 
     <!-- Subheading -->
@@ -42,7 +43,7 @@ import { icons } from '@/lib/icons';
       class="text-site-text-muted text-lg sm:text-xl leading-relaxed max-w-2xl mb-10 animate-slide-up"
       style="animation-delay: 0.1s; opacity: 0; animation-fill-mode: forwards;"
     >
-      {heroData.blurb}
+      {t(heroData.blurb, "I work across the data lifecycle, from cleaning and structuring datasets to building analyses and predictive models that support business decisions.")}
     </p>
 
     <!-- Gray band separator -->
@@ -55,20 +56,20 @@ import { icons } from '@/lib/icons';
     >
       {heroData.ctas.map((cta) => cta.style === 'primary' ? (
         <a
-          href={withBase(cta.href)}
+          href={local(cta.href)}
           class="inline-flex items-center gap-2 px-7 py-3.5 text-white font-display font-semibold tracking-[2px] uppercase text-sm shadow-glow-md hover:shadow-glow-lg transition-all duration-300 hover:brightness-110"
           style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);"
         >
-          {cta.label}
+          {t(cta.label, cta.style === "primary" ? "View Projects" : "Get in Touch")}
           <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" set:html={icons['arrow-right']} />
         </a>
       ) : (
         <a
-          href={withBase(cta.href)}
+          href={local(cta.href)}
           class="inline-flex items-center gap-2 px-7 py-3.5 border text-site-text font-display font-semibold tracking-[2px] uppercase text-sm hover:text-white hover:border-site-green transition-all duration-300"
           style="border-color: var(--color-border); background: var(--bg-surface);"
         >
-          {cta.label}
+          {t(cta.label, cta.style === "primary" ? "View Projects" : "Get in Touch")}
         </a>
       ))}
     </div>
