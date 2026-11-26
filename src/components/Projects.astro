@@ -43,6 +43,7 @@ const localizedProjects = projectsData.map(project => ({
 const projectsForScript = localizedProjects.map((p) => ({
   ...p,
   link: projectsRaw.find(raw => raw.slug === p.slug)?.link ?? projectsRaw.find(raw => raw.slug === p.slug)?.Link,
+  dashboard: projectsRaw.find(raw => raw.slug === p.slug)?.dashboard,
   featuredImage: p.featuredImage ? withBase(p.featuredImage) : p.featuredImage,
   backgroundImage: p.backgroundImage ? withBase(p.backgroundImage) : p.backgroundImage,
   colorIcon:       p.colorIcon       ? withBase(p.colorIcon)       : p.colorIcon,
@@ -178,6 +179,10 @@ const projectsForScript = localizedProjects.map((p) => ({
     <span id="project-modal-link-text" class="font-display uppercase tracking-[2px] font-semibold">{t("Ver proyecto", "View project")}</span>
     <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" set:html={icons['external-link']} />
   </a>
+  <a id="project-modal-dashboard" target="_blank" rel="noopener noreferrer" class="modal-cta" style="display: none; margin-top: 0.75rem;">
+    <span class="font-display uppercase tracking-[2px] font-semibold">{t("Ver en Tableau Public", "View on Tableau Public")}</span>
+    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" set:html={icons['external-link']} />
+  </a>
   <p id="project-modal-no-link" class="modal-no-link hidden font-mono">{t("Enlace público no disponible.", "Public link unavailable.")}</p>
 </Modal>
 
@@ -193,7 +198,7 @@ const projectsForScript = localizedProjects.map((p) => ({
     const el = document.getElementById('projects-data') as HTMLElement | null;
     const projects: {
       title: string; company: string; category: string; categoryLabel: string; description: string;
-      tags: string[]; link: string; icon: string;
+      tags: string[]; link: string; dashboard?: string; icon: string;
       featuredImage?: string; backgroundImage?: string; colorIcon?: string;
     }[] = el ? JSON.parse(el.textContent ?? '[]') : [];
 
@@ -294,6 +299,14 @@ const projectsForScript = localizedProjects.map((p) => ({
       const modalLinkTx = document.getElementById('project-modal-link-text') as HTMLElement;
       const modalNoLink = document.getElementById('project-modal-no-link') as HTMLElement;
 
+      const dashboardLink = document.getElementById('project-modal-dashboard') as HTMLAnchorElement;
+      dashboardLink.style.display = p.dashboard ? 'flex' : 'none';
+      if (p.dashboard) {
+        dashboardLink.href = p.dashboard;
+      } else {
+        dashboardLink.removeAttribute('href');
+      }
+
         const linkSeguro = p.link;
 
         if (linkSeguro) {
@@ -303,7 +316,7 @@ const projectsForScript = localizedProjects.map((p) => ({
             modalNoLink.style.display = 'none';
         } else {
             modalLink.style.display = 'none';
-            modalNoLink.style.display = 'block';
+            modalNoLink.style.display = p.dashboard ? 'none' : 'block';
         }
 
       modal.removeAttribute('hidden');
