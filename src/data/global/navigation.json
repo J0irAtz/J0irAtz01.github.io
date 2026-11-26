@@ -39,8 +39,7 @@
   "sidebarSocialLabel": "Social",
   "sidebarOtherSitesLabel": "Other Sites",
   "otherSites": [
-    { "label": "GitHub", "href": "https://github.com/J0irAtz", "iconKey": "user-outline" },
-    { "label": "LinkedIn", "href": "https://www.linkedin.com/in/jair-eduardo-alfaro-ahuatzin-dataanalyst/", "iconKey": "home-outline" }
+    { "label": "GitHub", "href": "https://github.com/J0irAtz", "iconKey": "user-outline" }
   ]
 }
 
