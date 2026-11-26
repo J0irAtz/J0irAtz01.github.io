@@ -1,5 +1,18 @@
 [
   {
+    "title": "Fórmula 1 · Seguimiento de Kimi Antonelli",
+    "slug": "f1-kimi-antonelli",
+    "category": "Data Engineering",
+    "tags": [
+      "Python",
+      "FastF1",
+      "Pandas",
+      "Tableau"
+    ],
+    "description": "Extracción y consolidación de resultados de Fórmula 1 con Python. El corte documentado reúne 132 registros de seis Grandes Premios y permite comparar posiciones y puntos por carrera.",
+    "link": "https://github.com/J0irAtz/Portfolio-Data-Analysis/tree/main/f1-antonelli"
+  },
+  {
     "title": "Predicción de Churn y Retención",
     "slug": "model-fitness-churn",
     "category": "Machine Learning",
